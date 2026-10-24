@@ -1,0 +1,80 @@
+// 既定カタログ。中野藤右衛門氏の keymapper 設定（Linux版 v17）準拠（CLAUDE.md 4.5）
+import type { Action, Category, Status } from "./model";
+
+const a = (id: string, label: string, glyph: string, category: Category, expr: string, status: Status = "ok"): Action => ({
+  id,
+  label,
+  glyph,
+  category,
+  expr,
+  status,
+  builtin: true,
+});
+
+export const CATALOG: Action[] = [
+  // 左1面 J K
+  a("jump_latest", "最新の位置へ", "最新", "cursor", "^ Control{End}"),
+  a("slash_full", "／", "／", "symbol", "^ Alt{Slash} Enter"),
+  a("save", "保存", "保存", "edit", "^ Control{S}"),
+  a("nakaguro", "・", "・", "symbol", "^ Slash"),
+  a("ellipsis", "……", "……", "symbol", '^ "……" Enter', "unsupported"),
+  a("nijukagi_open", "『", "『", "symbol", "^ Shift{BracketRight} Enter", "unsupported"),
+  a("question", "？", "？", "symbol", "^ Shift{Slash} Enter"),
+  a("kagi_open", "「", "「", "symbol", "^ BracketRight"),
+  a("paren_open", "（", "（", "symbol", "^ Shift{8} Enter"),
+  a("dash", "――", "――", "symbol", '^ "――" Enter', "unsupported"),
+  a("nijukagi_close", "』", "』", "symbol", "^ Shift{Backslash} Enter", "unsupported"),
+  a("exclaim", "！", "！", "symbol", "^ Shift{1} Enter"),
+  a("kagi_close", "」", "」", "symbol", "^ Backslash"),
+  a("paren_close", "）", "）", "symbol", "^ Shift{9} Enter"),
+
+  // 右1面 D F
+  a("home", "ホーム", "Home", "cursor", "Home"),
+  a("delete_to_end", "文末まで消去", "末消", "edit", "^ Shift{End} Backspace"),
+  a("reconvert", "再変換", "再", "ime", "^ Meta{Slash}", "unsupported"),
+  a("delete", "Del", "Del", "edit", "^ Delete"),
+  a("cancel_input", "入力キャンセル", "取消", "ime", "^ Shift{Escape Escape}"),
+  a("commit_end", "確定End", "確End", "ime", "^ Enter End"),
+  a("up", "↑", "↑", "cursor", "^ ArrowUp"),
+  a("select_up", "+↑", "+↑", "select", "^ Shift{ArrowUp}"),
+  a("select_up7", "+7↑", "+7↑", "select", "^ Shift{repeat[ArrowUp, 7]}"),
+  a("katakana", "カタカナ", "カナ", "ime", "^ F7"),
+  a("end", "End", "End", "cursor", "^ End"),
+  a("down", "↓", "↓", "cursor", "^ ArrowDown"),
+  a("select_down", "+↓", "+↓", "select", "^ Shift{ArrowDown}"),
+  a("select_down7", "+7↓", "+7↓", "select", "^ Shift{repeat[ArrowDown, 7]}"),
+  a("hiragana", "ひらがな", "ひら", "ime", "^ F6"),
+
+  // 左2面 M Comma
+  a("ruby_bar", "｜", "｜", "symbol", '^ "｜" Enter', "unsupported"),
+  a("time_skip", "時間経過", "×××", "macro", '^ "　　　×　　　×　　　×" Enter Enter', "unsupported"),
+  a("serifu_join", "セリフ接ぎ", "セ接", "macro", "^ Home ArrowRight End repeat[Delete, 2] ArrowLeft", "unverified"),
+  a("serifu_split", "セリフ切り", "セ切", "macro", "^ Home Enter repeat[Space, 1] ArrowLeft", "unverified"),
+  a("maru", "〇", "〇", "symbol", '"〇" Enter', "unsupported"),
+  a("double_angle_open", "《", "《", "symbol", '^ "《" Enter', "unsupported"),
+  a("lenticular_open", "【", "【", "symbol", '^ "【" Enter', "unsupported"),
+  a("togaki_join", "ト書き接ぎ", "ト接", "macro", "^ Home ArrowRight End repeat[Delete, 4] ArrowLeft", "unverified"),
+  a("togaki_split", "ト書き切り", "ト切", "macro", "^ Home Enter repeat[Space, 3] ArrowLeft", "unverified"),
+  a("space3", "空白3", "␣3", "macro", "^ repeat[Space, 3]"),
+  a("double_angle_close", "》", "》", "symbol", '^ "》" Enter', "unsupported"),
+  a("lenticular_close", "】", "】", "symbol", '^ "】" Enter', "unsupported"),
+  a("kagi_close_nl", "」改行", "」⏎", "macro", "^ Backslash Enter Enter"),
+  a("kagi_close_nl_open", "」改行「", "」⏎「", "macro", "^ Backslash Enter Enter BracketRight Enter"),
+  a("kagi_close_nl_space", "」改行空白", "」⏎␣", "macro", "^ Backslash Enter Enter Space"),
+
+  // 右2面 C V（再変換は右1面と共用）
+  a("select_home", "+Home", "+Home", "select", "Shift{Home}"),
+  a("cut", "Cut", "Cut", "edit", "^ Control{X}"),
+  a("paste", "Paste", "Paste", "edit", "^ Control{V}"),
+  a("undo", "Undo", "Undo", "edit", "^ Control{Z}"),
+  a("copy", "Copy", "Copy", "edit", "^ Control{C}"),
+  a("left", "←", "←", "cursor", "^ ArrowLeft"),
+  a("right", "→", "→", "cursor", "^ ArrowRight"),
+  a("select_left7", "+7←", "+7←", "select", "^ Shift{repeat[ArrowLeft, 7]}"),
+  a("select_right7", "+7→", "+7→", "select", "Shift{repeat[ArrowRight, 7]}"),
+  a("select_end", "+End", "+End", "select", "^ Shift{End}"),
+  a("select_left", "+←", "+←", "select", "^ Shift{ArrowLeft}"),
+  a("select_right", "+→", "+→", "select", "^ Shift{ArrowRight}"),
+  a("select_line", "一行選択", "行選", "select", "^ End Shift{Home}"),
+  a("redo", "Redo", "Redo", "edit", "^ Control{Y}"),
+];
