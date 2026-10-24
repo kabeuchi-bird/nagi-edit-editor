@@ -44,6 +44,15 @@ CLAUDE.md を基本仕様とし、本書には詳細化・決定事項・keymapp
 | `92` 等の数値 | スキャンコード（10進・16進）の直接指定 | Key names |
 | `#` | 行末までコメント | Configuration |
 
+運用まわり（docs/manual-test.md の根拠）：
+
+| 事項 | 根拠 |
+|---|---|
+| 設定ファイルの場所：`$XDG_CONFIG_HOME`・`$HOME/.config`・`/etc`（各 `keymapper/` サブディレクトリ可）、または `-c` 指定 | README「Configuration」 |
+| `-u` / `--update` で設定変更時に自動再読込。参照元は `@options no-update` のため自動再読込しない | README「Configuration」「Directives」、参照元設定の冒頭 |
+| `--check` で設定のエラーを検査して終了 | `src/client/Settings.cpp` のヘルプ文 |
+| 緊急時は Shift+Escape+K で keymapperd を終了 | README「Configuration」 |
+
 - キー名はスキャンコード基準で、ブラウザの `KeyboardEvent.code` に準拠する。英字・数字は `A`〜`Z`・`0`〜`9` の別名あり。`Shift` `Control` `Alt` `Meta` は左右両方に一致する論理キー
 - 大文字小文字を区別する
 
