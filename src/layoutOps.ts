@@ -67,7 +67,7 @@ export const countUses = (layout: Layout, actionId: string): number =>
 
 // Undo/Redo
 // ponytail: 履歴は無制限。レイアウトは小さいので問題になったら上限を付ける
-export interface History<T> {
+interface History<T> {
   past: T[];
   present: T;
   future: T[];

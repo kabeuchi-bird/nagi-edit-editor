@@ -17,7 +17,7 @@ const run = (layout: Layout = DEFAULT_LAYOUT, opts: Partial<OutputOptions> = {})
 function slots(text: string) {
   return text.split("\n").flatMap((line) => {
     const m = /^(#?)\(([^)]*)\) >>(.*)$/.exec(line);
-    if (!m || /^(U I|E R) /.test(m[2])) return [];
+    if (!m) return [];
     const expr = m[3].replace(/#[^"]*$/, "").replace(/\s+/g, "");
     return [{ slot: m[2], commented: m[1] === "#", expr }];
   });

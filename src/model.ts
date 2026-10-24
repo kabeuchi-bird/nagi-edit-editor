@@ -27,7 +27,7 @@ export interface Action {
 }
 
 export type FaceId = "p_l" | "p_r" | "l1" | "r1" | "l2" | "r2";
-export type Hand = "left" | "right";
+type Hand = "left" | "right";
 
 export interface Face {
   id: FaceId;
@@ -58,12 +58,6 @@ export const DEFAULT_OUTPUT_OPTIONS: OutputOptions = {
   trailingComments: true,
 };
 
-/** 出力順（列優先、参照元に合わせる） */
-export const HAND_KEYS: Record<Hand, string[]> = {
-  left: ["Q", "A", "Z", "W", "S", "X", "E", "D", "C", "R", "F", "V", "T", "G", "B"],
-  right: ["Y", "H", "N", "U", "J", "M", "I", "K", "Comma", "O", "L", "Period", "P", "Semicolon", "Slash"],
-};
-
 /** 画面表示用の物理配置（3段×5列） */
 export const HAND_ROWS: Record<Hand, string[][]> = {
   left: [
@@ -78,6 +72,10 @@ export const HAND_ROWS: Record<Hand, string[][]> = {
   ],
 };
 
+/** 出力順：物理配置を列優先で読む（参照元に合わせる） */
+const columnMajor = (rows: string[][]) => rows[0].flatMap((_, c) => rows.map((row) => row[c]));
+export const HAND_KEYS: Record<Hand, string[]> = { left: columnMajor(HAND_ROWS.left), right: columnMajor(HAND_ROWS.right) };
+
 /** 出力順に並べた面定義 */
 export const FACES: Face[] = [
   { id: "p_l", name: "固有名詞・左", trigger: ["U", "I"], hand: "left", headers: ["#固有名詞１", "# UIを押しながら左手"] },
@@ -87,5 +85,3 @@ export const FACES: Face[] = [
   { id: "l2", name: "左2面", trigger: ["M", "Comma"], hand: "left", headers: ["# 編集モード２", "# (M Comma ?) 左手"] },
   { id: "r2", name: "右2面", trigger: ["C", "V"], hand: "right", headers: ["# (C V ?) 右手"] },
 ];
-
-export const PROPER_NOUN_FACES: FaceId[] = ["p_l", "p_r"];

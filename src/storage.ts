@@ -4,10 +4,10 @@ import { CATEGORY_LABEL, DEFAULT_OUTPUT_OPTIONS, FACES, HAND_KEYS, STATUS_LABEL 
 import type { Action, EditState, Layout, OutputOptions } from "./model";
 import { isReserved } from "./reserved";
 
-export const STORAGE_KEY = "nagi-edit:v1:layout";
+const STORAGE_KEY = "nagi-edit:v1:layout";
 const FORMAT_VERSION = 1;
 
-export interface Saved {
+interface Saved {
   state: EditState;
   options: OutputOptions;
 }
