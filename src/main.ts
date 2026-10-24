@@ -305,6 +305,28 @@ importFile.addEventListener("change", async () => {
   update(saved.state);
 });
 
+// 表示テーマ（docs/spec.md 11章）。初期適用は index.html の <head> で済んでいる
+const THEME_KEY = "nagi-edit:v1:theme";
+const themeButtons = document.querySelectorAll<HTMLButtonElement>("[data-theme-choice]");
+function applyTheme(choice: string): void {
+  if (choice === "system") delete document.documentElement.dataset.theme;
+  else document.documentElement.dataset.theme = choice;
+  themeButtons.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.themeChoice === choice)));
+}
+applyTheme(document.documentElement.dataset.theme ?? "system");
+themeButtons.forEach((b) =>
+  b.addEventListener("click", () => {
+    const choice = b.dataset.themeChoice!;
+    applyTheme(choice);
+    try {
+      if (choice === "system") localStorage.removeItem(THEME_KEY);
+      else localStorage.setItem(THEME_KEY, choice);
+    } catch {
+      // 保存できない環境ではその場限りの切り替え
+    }
+  }),
+);
+
 // 出力
 for (const k of Object.keys(options) as (keyof OutputOptions)[]) {
   input(`opt-${k}`).addEventListener("change", (e) => {
