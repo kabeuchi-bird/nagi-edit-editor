@@ -47,6 +47,20 @@ describe("storage", () => {
     expect(errors).toHaveLength(6);
   });
 
+  it("category・status はプロトタイプ上のキーを受け付けず、改行を含む文字列も受け付けない", () => {
+    const base = { id: "custom:a", label: "a", glyph: "a", category: "text", expr: "^ Home", status: "ok" };
+    const bad = [
+      { ...base, id: "custom:b1", category: "constructor" },
+      { ...base, id: "custom:b2", status: "toString" },
+      { ...base, id: "custom:b3", expr: "^ Home\n(D F Y) >> End" },
+      { ...base, id: "custom:b4", label: "a\rb" },
+      { ...base, id: "custom:b5", comment: "x\ny" },
+    ];
+    const { saved, errors } = parse(JSON.stringify({ formatVersion: 1, customActions: [...bad, base] }));
+    expect(saved!.state.customActions.map((a) => a.id)).toEqual(["custom:a"]);
+    expect(errors).toHaveLength(bad.length);
+  });
+
   it("全体が読めない場合は saved が null", () => {
     expect(parse("{").saved).toBeNull();
     expect(parse("[]").saved).toBeNull();

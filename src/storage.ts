@@ -34,15 +34,18 @@ function migrate(raw: Obj): Obj {
   throw new Error(`未対応の formatVersion です：${String(raw.formatVersion)}`);
 }
 
+/** 1行の文字列か（改行を含むと出力で別の設定行になる） */
+const isLine = (v: unknown): v is string => typeof v === "string" && !/[\r\n]/.test(v);
+
 function toCustomAction(v: unknown): Action | null {
   if (!isObj(v)) return null;
   const { id, label, glyph, category, expr, comment, status } = v;
   const ok =
     typeof id === "string" && id.startsWith("custom:") &&
-    typeof label === "string" && typeof glyph === "string" && typeof expr === "string" &&
-    typeof category === "string" && category in CATEGORY_LABEL &&
-    typeof status === "string" && status in STATUS_LABEL &&
-    (comment === undefined || typeof comment === "string");
+    isLine(label) && isLine(glyph) && isLine(expr) &&
+    typeof category === "string" && Object.hasOwn(CATEGORY_LABEL, category) &&
+    typeof status === "string" && Object.hasOwn(STATUS_LABEL, status) &&
+    (comment === undefined || isLine(comment));
   if (!ok) return null;
   return { id, label, glyph, expr, category, status, ...(comment === undefined ? {} : { comment }), builtin: false } as Action;
 }

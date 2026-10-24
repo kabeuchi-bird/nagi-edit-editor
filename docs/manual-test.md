@@ -17,32 +17,38 @@ keymapper の挙動に関する記述の根拠は `docs/spec.md` 3章。
 
 ### 準備
 
-1. 設定ファイルの場所を確認する。通常は `~/.config/keymapper.conf` または `~/.config/keymapper/keymapper.conf`
+1. 使っている設定ファイルのパスを変数に入れる。以降の手順はすべてこの変数を使う（同じシェルで続けて実行する）
+
+   ```sh
+   # 通常は次のどちらか。実際に使っている方を指定する
+   CONF=~/.config/keymapper.conf
+   # CONF=~/.config/keymapper/keymapper.conf
+   ls -l "$CONF"
+   ```
+
 2. バックアップを取る
 
    ```sh
-   cp ~/.config/keymapper.conf ~/.config/keymapper.conf.bak
+   cp "$CONF" "$CONF.bak"
    ```
 
 ### 貼り替え手順（各ケース共通）
 
 1. ツールで配置を変え、「コピー」を押す
-2. keymapper.conf の `#固有名詞１` の行から `(C V Slash) >> ^ Control{Y}` の行までを選択し、コピーした内容で置き換えて保存する
+2. `$CONF` の `#固有名詞１` の行から `(C V Slash) >> ^ Control{Y}` の行までを選択し、コピーした内容で置き換えて保存する
 3. 構文を検査する（エラーが出ないこと）
 
    ```sh
-   keymapper --check
-   # 設定ファイルが標準の場所以外なら
-   keymapper --check -c <設定ファイルのパス>
+   keymapper --check -c "$CONF"
    ```
 
 4. keymapper を再起動して設定を読み直す。参照元設定は `@options no-update` のため、保存しただけでは反映されない
 
    ```sh
-   pkill -x keymapper; keymapper &
+   pkill -x keymapper; keymapper -c "$CONF" &
    ```
 
-   自動起動の設定で起動している場合は、ログインし直してもよい
+   自動起動の設定で起動している場合は、ログインし直してもよい（その場合、自動起動側が `$CONF` を読む設定になっていることを確認する）
 
 ### ケース
 
@@ -59,7 +65,7 @@ keymapper の挙動に関する記述の根拠は `docs/spec.md` 3章。
 
 ### 後片付け・トラブル時
 
-- 元に戻す：`cp ~/.config/keymapper.conf.bak ~/.config/keymapper.conf` のあと keymapper を再起動
+- 元に戻す：`cp "$CONF.bak" "$CONF"` のあと、手順4と同じく keymapper を再起動
 - キー入力がおかしくなったら Shift+Escape+K で `keymapperd` を終了できる（README記載の緊急用の組み合わせ）
 
 ## B. ブラウザでの確認

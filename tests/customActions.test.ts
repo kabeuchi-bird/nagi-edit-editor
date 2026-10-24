@@ -71,7 +71,7 @@ describe("editSlotAction", () => {
 
 describe("deleteCustom", () => {
   it("削除すると置いていたスロットが空になる", () => {
-    const a = textAction("戸田", "custom:toda")!;
+    const a = textAction("テスト", "custom:test")!;
     const s = { ...addCustom(S, a), layout: assign(S.layout, { face: "p_l", key: "C" }, a.id) };
     const out = deleteCustom(s, a.id);
     expect(out.customActions).toEqual([]);
