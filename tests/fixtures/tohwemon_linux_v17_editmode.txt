@@ -1,0 +1,77 @@
+# 出典: 中野藤右衛門「Win/Mac/Linuxで薙刀式v17（設定ファイル更新）」Linux版（2026-06-25）
+# https://tohwemon.com/2026/06/25/win-mac-linux%e3%81%a7%e8%96%99%e5%88%80%e5%bc%8fv17%ef%bc%88%e8%a8%ad%e5%ae%9a%e3%83%95%e3%82%a1%e3%82%a4%e3%83%ab%e6%9b%b4%e6%96%b0%ef%bc%89/
+# 編集モード範囲（#固有名詞１ 〜 (C V Slash)）のみ抜粋。固有名詞面（U I / E R）の例は個人名を含むため行ごと省略し、それ以外は原文のまま（取得日 2026-10-24）
+# ---
+#固有名詞１ ※Linuxは未対応
+# UIを押しながら左手
+
+# ERを押しながら右手
+
+# 編集モード１
+# (J K ?) 左手 - JIS記号対応版
+(J K Q) >> ^ Control{End} # 最新の位置（ファイル末尾）へ戻る
+#(J K A) >> ^ "……" Enter
+#(J K Z) >> ^ "――"Enter
+(J K W) >> ^ Alt{Slash} Enter # ／
+#(J K S) >> ^ Shift{BracketRight} Enter # 『
+#(J K X) >> ^ Shift{Backslash} Enter # 』
+(J K D) >> ^ Shift{Slash} Enter # ？
+(J K C) >> ^ Shift{1} Enter # ！
+(J K R) >> ^ Control{S} # 保存する
+(J K F) >> ^ BracketRight # 「 ※『 が変換で出せるようにEnterしない
+(J K V) >> ^ Backslash # 」　※』 が変換で出せるようにEnterしない
+(J K T) >> ^ Slash # ・
+(J K G) >> ^ Shift{8} Enter # （
+(J K B) >> ^ Shift{9} Enter # ）
+
+# (D F ?) 右手
+(D F Y) >> Home
+(D F H) >> ^ Enter End
+(D F N) >> ^ End
+(D F U) >> ^ Shift{End} Backspace #末尾まで消去
+(D F J) >> ^ ArrowUp
+(D F M) >> ^ ArrowDown
+#(D F I) >> ^ 92 # Mozcは再変換未対応
+(D F K) >> ^ Shift{ArrowUp}
+(D F Comma) >> ^ Shift{ArrowDown}
+(D F O) >> ^ Delete
+(D F L) >> ^ Shift{repeat[ArrowUp, 7]}
+(D F Period) >> ^ Shift{repeat[ArrowDown, 7]}
+(D F P) >> ^ Shift{Escape Escape}
+(D F Semicolon) >> ^ F7
+(D F Slash) >> ^ F6
+
+# 編集モード２
+# (M Comma ?) 左手
+#(M Comma Q) >> ^ "｜" Enter
+#(M Comma A) >> ^ "《" Enter
+#(M Comma Z) >> ^ "》" Enter
+#(M Comma W) >> ^ "　　　×　　　×　　　×" Enter Enter
+#(M Comma S) >> ^ "【" Enter
+#(M Comma X) >> ^ "】" Enter
+#(M Comma E) >> ^ Home ArrowRight End repeat[Delete, 2] ArrowLeft #セリフ接ぎ
+#(M Comma D) >> ^ Home ArrowRight End repeat[Delete, 4] ArrowLeft #ト書き接ぎ
+(M Comma C) >> ^ Backslash Enter Enter #カッコ閉じ改行
+#(M Comma R) >> ^ Home Enter repeat[Space, 1] ArrowLeft #セリフ切り
+#(M Comma F) >> ^ Home Enter repeat[Space, 3] ArrowLeft #ト書き切り
+(M Comma V) >> ^ Backslash Enter Enter BracketRight Enter #カッコ閉じ改行カッコ
+#(M Comma T) >> "〇" Enter
+(M Comma G) >> ^ repeat[Space, 3] # 空白３文字
+(M Comma B) >> ^ Backslash Enter Enter Space # カッコ閉じ改行１文字空け
+
+# (C V ?) 右手
+(C V Y) >> Shift{Home}
+(C V H) >> ^ Control{C}
+(C V N) >> ^ Shift{End}
+(C V U) >> ^ Control{X}
+(C V J) >> ^ ArrowLeft
+(C V M) >> ^ Shift{ArrowLeft}
+#(C V I) >> ^ 92 # Mozcは再変換未対応
+(C V K) >> ^ ArrowRight
+(C V Comma) >> ^ Shift{ArrowRight}
+(C V O) >> ^ Control{V}
+(C V L) >> ^ Shift{repeat[ArrowLeft, 7]} 
+(C V Period) >> ^ End Shift{Home}
+(C V P) >> ^ Control{Z}
+(C V Semicolon) >> Shift{repeat[ArrowRight, 7]}
+(C V Slash) >> ^ Control{Y}

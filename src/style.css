@@ -1,0 +1,487 @@
+:root {
+  --bg: #fafaf7;
+  --fg: #1f1f1f;
+  --muted: #6b6b6b;
+  --line: #c9c9c2;
+  --key-bg: #ffffff;
+  --empty-bg: #f0f0eb;
+  /* マニュアル凡例に寄せたカテゴリ色 */
+  --cat-move: #d7e8fb;
+  --cat-select: #d9f0d3;
+  --cat-important: #fde0c8;
+  --cat-symbol: #ececec;
+  --stripe: rgba(0, 0, 0, 0.12);
+  --accent: #c2410c;
+  --diff-bg: #fff3b0;
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1b1b1d;
+    --fg: #e6e6e3;
+    --muted: #9a9a96;
+    --line: #48484c;
+    --key-bg: #2a2a2e;
+    --empty-bg: #222225;
+    --cat-move: #22384f;
+    --cat-select: #243d26;
+    --cat-important: #4a3220;
+    --cat-symbol: #333337;
+    --stripe: rgba(255, 255, 255, 0.12);
+    --accent: #fb923c;
+    --diff-bg: #5a4a10;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* display を指定した要素でも hidden 属性を効かせる */
+[hidden] {
+  display: none !important;
+}
+
+body {
+  margin: 0;
+  padding: 16px;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: system-ui, sans-serif;
+}
+
+h1 {
+  font-size: 1.25rem;
+  margin: 0 0 8px;
+}
+
+h2 {
+  font-size: 0.95rem;
+  margin: 0 0 6px;
+}
+
+a {
+  color: inherit;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin: 0 0 16px;
+  padding: 0;
+  list-style: none;
+  font-size: 0.85rem;
+}
+
+.legend li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.swatch {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: var(--key-bg);
+}
+
+/* 面グリッド */
+.faces {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 760px) {
+  .faces {
+    grid-template-columns: 1fr;
+  }
+}
+
+.hand {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 4px;
+  max-width: 420px;
+}
+
+.key {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  padding: 4px 2px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--key-bg);
+  color: inherit;
+  font: inherit;
+  overflow: hidden;
+}
+
+.key {
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* 子要素で dragleave がちらつかないように */
+.key > span {
+  pointer-events: none;
+}
+
+.key:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.key.selected {
+  outline: 3px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.key.drop-target {
+  outline: 3px dashed var(--accent);
+  outline-offset: 1px;
+}
+
+/* 既定から変更：右上の点 */
+.key.modified::after,
+.swatch.modified::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.swatch.modified {
+  position: relative;
+}
+
+.key .glyph {
+  font-size: 1.05rem;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.key .keyname {
+  font-size: 0.65rem;
+  color: var(--muted);
+}
+
+.key.empty {
+  background: var(--empty-bg);
+  border-style: dashed;
+}
+
+.key.reserved {
+  background: repeating-linear-gradient(45deg, var(--empty-bg) 0 6px, var(--stripe) 6px 8px);
+  color: var(--muted);
+  cursor: not-allowed;
+}
+
+.cat-cursor,
+.cat-macro {
+  background: var(--cat-move);
+}
+
+.cat-select {
+  background: var(--cat-select);
+}
+
+.cat-edit,
+.cat-ime {
+  background: var(--cat-important);
+}
+
+.cat-symbol,
+.cat-text {
+  background: var(--cat-symbol);
+}
+
+/* status：unsupported は斜線＋淡色、unverified は点線枠 */
+.st-unsupported {
+  background-image: repeating-linear-gradient(45deg, transparent 0 6px, var(--stripe) 6px 8px);
+}
+
+.key.st-unsupported .glyph {
+  opacity: 0.55;
+}
+
+.st-unverified {
+  border: 2px dotted var(--fg);
+}
+
+/* ヘッダー */
+.title-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  margin-bottom: 8px;
+}
+
+.title-bar h1 {
+  margin: 0;
+}
+
+.toolbar,
+.form-row,
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
+}
+
+.warn,
+.notice {
+  margin: 0 0 12px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  white-space: pre-line;
+}
+
+.warn {
+  background: var(--cat-important);
+}
+
+.notice {
+  background: var(--cat-move);
+}
+
+.face-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+button.small {
+  padding: 1px 6px;
+  font-size: 0.75rem;
+}
+
+/* パネル共通 */
+.panel {
+  margin-top: 24px;
+}
+
+.panel-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  margin-bottom: 6px;
+}
+
+.panel-bar h2 {
+  margin: 0;
+}
+
+.hint-inline,
+.field-note {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+input,
+select,
+output {
+  font: inherit;
+}
+
+input:not([type="checkbox"]),
+select {
+  min-width: 0;
+  padding: 3px 6px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--key-bg);
+  color: inherit;
+}
+
+.mono {
+  font-family: ui-monospace, "DejaVu Sans Mono", monospace;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 12px;
+  align-items: end;
+  max-width: 640px;
+}
+
+.form-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 0.8rem;
+}
+
+.form-grid .wide,
+.form-grid .warn-list {
+  grid-column: 1 / -1;
+}
+
+.warn-list {
+  margin: 0;
+  padding-left: 1.2em;
+  font-size: 0.8rem;
+  color: var(--accent);
+}
+
+.warn-list:empty {
+  display: none;
+}
+
+/* パレット */
+.palette {
+  padding: 8px;
+  border: 2px solid transparent;
+  border-radius: 8px;
+}
+
+.palette.drop-target {
+  border: 2px dashed var(--accent);
+}
+
+#palette-search {
+  width: 16em;
+  max-width: 100%;
+}
+
+.pal-group h3 {
+  margin: 10px 0 4px;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.pal-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.pal-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 8px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: grab;
+  user-select: none;
+}
+
+.pal-item:focus-visible {
+  outline: 2px solid var(--accent);
+}
+
+.pal-item.st-unsupported .glyph {
+  opacity: 0.55;
+}
+
+.pal-del {
+  padding: 0 4px;
+  border: none;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  cursor: pointer;
+}
+
+.custom-add {
+  margin-top: 12px;
+}
+
+.custom-add summary {
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.custom-add form {
+  margin-top: 8px;
+}
+
+/* 詳細パネルと出力 */
+.bottom {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  gap: 24px;
+}
+
+@media (max-width: 760px) {
+  .bottom {
+    grid-template-columns: 1fr;
+  }
+}
+
+.detail .form-row {
+  margin-top: 8px;
+}
+
+.options {
+  margin-bottom: 6px;
+  font-size: 0.85rem;
+}
+
+#copy-msg {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.hint {
+  margin: -8px 0 16px;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+#diff {
+  margin: 0;
+  overflow: auto;
+}
+
+#diff .changed {
+  background: var(--diff-bg);
+}
+
+#output,
+#diff {
+  width: 100%;
+  height: 28em;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--key-bg);
+  color: inherit;
+  font-family: ui-monospace, "DejaVu Sans Mono", monospace;
+  font-size: 0.85rem;
+  white-space: pre;
+  resize: vertical;
+}
+
+footer {
+  margin-top: 24px;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
