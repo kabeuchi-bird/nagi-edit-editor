@@ -11,7 +11,7 @@ const DISPLAY_ORDER: FaceId[][] = [
   ["r1", "r2", "p_r"],
 ];
 
-const el = <K extends keyof HTMLElementTagNameMap>(tag: K, className: string, text = "") => {
+export const el = <K extends keyof HTMLElementTagNameMap>(tag: K, className: string, text = "") => {
   const e = document.createElement(tag);
   e.className = className;
   e.textContent = text;

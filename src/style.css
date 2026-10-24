@@ -1,37 +1,28 @@
+/* 色は light-dark(ライト, ダーク)。どちらを使うかは color-scheme で決まる（docs/spec.md 11章） */
 :root {
-  --bg: #fafaf7;
-  --fg: #1f1f1f;
-  --muted: #6b6b6b;
-  --line: #c9c9c2;
-  --key-bg: #ffffff;
-  --empty-bg: #f0f0eb;
+  color-scheme: light dark; /* 既定：システムに従う */
+  --bg: light-dark(#fafaf7, #1b1b1d);
+  --fg: light-dark(#1f1f1f, #e6e6e3);
+  --muted: light-dark(#6b6b6b, #9a9a96);
+  --line: light-dark(#c9c9c2, #48484c);
+  --key-bg: light-dark(#ffffff, #2a2a2e);
+  --empty-bg: light-dark(#f0f0eb, #222225);
   /* マニュアル凡例に寄せたカテゴリ色 */
-  --cat-move: #d7e8fb;
-  --cat-select: #d9f0d3;
-  --cat-important: #fde0c8;
-  --cat-symbol: #ececec;
-  --stripe: rgba(0, 0, 0, 0.12);
-  --accent: #c2410c;
-  --diff-bg: #fff3b0;
-  color-scheme: light dark;
+  --cat-move: light-dark(#d7e8fb, #22384f);
+  --cat-select: light-dark(#d9f0d3, #243d26);
+  --cat-important: light-dark(#fde0c8, #4a3220);
+  --cat-symbol: light-dark(#ececec, #333337);
+  --stripe: light-dark(rgba(0, 0, 0, 0.12), rgba(255, 255, 255, 0.12));
+  --accent: light-dark(#c2410c, #fb923c);
+  --diff-bg: light-dark(#fff3b0, #5a4a10);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #1b1b1d;
-    --fg: #e6e6e3;
-    --muted: #9a9a96;
-    --line: #48484c;
-    --key-bg: #2a2a2e;
-    --empty-bg: #222225;
-    --cat-move: #22384f;
-    --cat-select: #243d26;
-    --cat-important: #4a3220;
-    --cat-symbol: #333337;
-    --stripe: rgba(255, 255, 255, 0.12);
-    --accent: #fb923c;
-    --diff-bg: #5a4a10;
-  }
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
 }
 
 * {
@@ -484,4 +475,31 @@ footer {
   margin-top: 24px;
   font-size: 0.8rem;
   color: var(--muted);
+}
+
+/* テーマ切り替え */
+.theme-switch {
+  display: inline-flex;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.theme-switch button {
+  padding: 3px 10px;
+  border: none;
+  background: var(--key-bg);
+  color: inherit;
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.theme-switch button + button {
+  border-left: 1px solid var(--line);
+}
+
+.theme-switch button[aria-pressed="true"] {
+  background: var(--accent);
+  color: var(--bg);
 }

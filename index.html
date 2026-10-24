@@ -4,6 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>薙刀式 編集モード エディタ</title>
+    <script>
+      // 保存済みテーマを描画前に適用する（ちらつき防止。docs/spec.md 11章）
+      try {
+        const t = localStorage.getItem("nagi-edit:v1:theme");
+        if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
+      } catch {}
+    </script>
   </head>
   <body>
     <header>
@@ -14,6 +21,11 @@
           <input type="file" id="import-file" accept=".json,application/json" hidden />
           <button type="button" id="export">エクスポート</button>
           <button type="button" id="reset-all">すべて既定に戻す</button>
+          <div class="theme-switch" role="group" aria-label="表示テーマ">
+            <button type="button" data-theme-choice="light">ライト</button>
+            <button type="button" data-theme-choice="dark">ダーク</button>
+            <button type="button" data-theme-choice="system">システム</button>
+          </div>
         </div>
       </div>
       <p id="storage-warn" class="warn" hidden>保存できません。JSONでエクスポートしてください</p>

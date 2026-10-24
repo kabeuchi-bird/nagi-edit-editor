@@ -1,5 +1,5 @@
 // keymapper 出力生成（docs/spec.md 4章）
-import { FACES, HAND_KEYS, PROPER_NOUN_FACES, STATUS_LABEL } from "./model";
+import { FACES, HAND_KEYS, STATUS_LABEL } from "./model";
 import type { Action, Face, Layout, OutputOptions } from "./model";
 import { isReserved } from "./reserved";
 
@@ -15,7 +15,7 @@ function slotLine(face: Face, key: string, action: Action, opts: OutputOptions):
 export function emit(layout: Layout, actions: ReadonlyMap<string, Action>, opts: OutputOptions): string {
   const out: string[] = [];
   for (const face of FACES) {
-    if (!opts.includeProperNouns && PROPER_NOUN_FACES.includes(face.id)) continue;
+    if (!opts.includeProperNouns && face.id.startsWith("p_")) continue; // 固有名詞面
     if (out.length) out.push("");
     out.push(...face.headers);
     for (const key of HAND_KEYS[face.hand]) {
