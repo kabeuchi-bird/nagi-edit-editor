@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { DEFAULT_LAYOUT } from "../src/defaultLayout";
-import { assign, clear, commit, createHistory, redo, swap, undo } from "../src/layoutOps";
+import { assign, clear, commit, createHistory, isModified, redo, swap, undo } from "../src/layoutOps";
 
 const L = DEFAULT_LAYOUT;
 
@@ -49,6 +49,16 @@ describe("assign / clear", () => {
     const out = clear(L, { face: "l1", key: "Q" });
     expect("Q" in out.l1).toBe(false);
     expect(clear(out, { face: "l1", key: "Q" })).toBe(out);
+  });
+});
+
+describe("isModified", () => {
+  it("入れ替えた2スロットだけが既定と異なる", () => {
+    const out = swap(L, { face: "r1", key: "J" }, { face: "r1", key: "M" });
+    expect(isModified(out, { face: "r1", key: "J" })).toBe(true);
+    expect(isModified(out, { face: "r1", key: "M" })).toBe(true);
+    expect(isModified(out, { face: "r1", key: "K" })).toBe(false);
+    expect(isModified(L, { face: "p_l", key: "Q" })).toBe(false); // 空同士
   });
 });
 

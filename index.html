@@ -15,7 +15,12 @@
         <li><span class="swatch cat-symbol"></span>記号・文字</li>
         <li><span class="swatch st-unsupported"></span>Linux未対応</li>
         <li><span class="swatch st-unverified"></span>未検証</li>
+        <li><span class="swatch modified"></span>既定から変更</li>
       </ul>
+      <p class="hint">
+        ドラッグ、またはクリック→別のキーをクリックで入れ替え ／ Delete で空にする ／ Esc で選択解除 ／
+        Ctrl+Z 元に戻す ・ Ctrl+Shift+Z やり直す
+      </p>
     </header>
 
     <main>
@@ -25,9 +30,11 @@
         <div class="output-bar">
           <h2>keymapper 出力</h2>
           <button type="button" id="copy">コピー</button>
+          <label><input type="checkbox" id="diff-toggle" /> 既定との差分を表示</label>
           <span id="copy-msg" role="status"></span>
         </div>
         <textarea id="output" readonly spellcheck="false" aria-label="keymapper 出力"></textarea>
+        <pre id="diff" hidden aria-label="既定との差分"></pre>
       </section>
     </main>
 

@@ -1,4 +1,5 @@
 // レイアウト操作（純粋関数）。変更がなければ同じオブジェクトを返す
+import { DEFAULT_LAYOUT } from "./defaultLayout";
 import type { FaceId, Layout } from "./model";
 import { isReserved } from "./reserved";
 
@@ -29,6 +30,9 @@ export function swap(layout: Layout, a: SlotRef, b: SlotRef): Layout {
 /** スロットにアクションを置く（上書き） */
 export const assign = (layout: Layout, s: SlotRef, actionId: string): Layout =>
   reserved(s) || get(layout, s) === actionId ? layout : set(layout, s, actionId);
+
+/** 既定配置と中身が異なるか */
+export const isModified = (layout: Layout, s: SlotRef): boolean => get(layout, s) !== get(DEFAULT_LAYOUT, s);
 
 /** スロットを空にする */
 export const clear = (layout: Layout, s: SlotRef): Layout =>
