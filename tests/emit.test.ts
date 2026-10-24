@@ -4,6 +4,7 @@ import { CATALOG } from "../src/catalog";
 import { DEFAULT_LAYOUT } from "../src/defaultLayout";
 import { emit } from "../src/emit";
 import { KEYS } from "../src/keys";
+import { swap } from "../src/layoutOps";
 import { DEFAULT_OUTPUT_OPTIONS, FACES } from "../src/model";
 import type { Layout, OutputOptions } from "../src/model";
 import { isReserved } from "../src/reserved";
@@ -53,7 +54,7 @@ describe("emit", () => {
   });
 
   it("2スロット入れ替えで該当2行の expr だけが入れ替わる", () => {
-    const layout = { ...DEFAULT_LAYOUT, l1: { ...DEFAULT_LAYOUT.l1, Q: "copy" }, r2: { ...DEFAULT_LAYOUT.r2, H: "jump_latest" } };
+    const layout = swap(DEFAULT_LAYOUT, { face: "l1", key: "Q" }, { face: "r2", key: "H" });
     const before = run().split("\n");
     const after = run(layout).split("\n");
     const changed = after.filter((l, i) => l !== before[i]);
