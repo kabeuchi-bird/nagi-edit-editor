@@ -1,14 +1,13 @@
 // keymapper 出力生成（docs/spec.md 4章）
-import { FACES, HAND_KEYS, PROPER_NOUN_FACES } from "./model";
+import { FACES, HAND_KEYS, PROPER_NOUN_FACES, STATUS_LABEL } from "./model";
 import type { Action, Face, Layout, OutputOptions } from "./model";
 import { isReserved } from "./reserved";
 
-const SUFFIX = { ok: "", unsupported: "（Linux未対応）", unverified: "（未検証）" } as const;
-
 function slotLine(face: Face, key: string, action: Action, opts: OutputOptions): string {
   const active = action.status === "ok" || opts.includeUnsupported;
+  const suffix = action.status === "ok" ? "" : `（${STATUS_LABEL[action.status]}）`;
   let line = `${active ? "" : "#"}(${[...face.trigger, key].join(" ")}) >> ${action.expr}`;
-  if (opts.trailingComments) line += ` # ${action.comment ?? action.label}${SUFFIX[action.status]}`;
+  if (opts.trailingComments) line += ` # ${action.comment ?? action.label}${suffix}`;
   return line.trimEnd();
 }
 

@@ -1,5 +1,7 @@
 export type Status = "ok" | "unsupported" | "unverified";
 
+export const STATUS_LABEL: Record<Status, string> = { ok: "", unsupported: "Linux未対応", unverified: "未検証" };
+
 export type Category = "cursor" | "select" | "edit" | "ime" | "symbol" | "macro" | "text";
 
 export interface Action {
@@ -43,6 +45,20 @@ export const DEFAULT_OUTPUT_OPTIONS: OutputOptions = {
 export const HAND_KEYS: Record<Hand, string[]> = {
   left: ["Q", "A", "Z", "W", "S", "X", "E", "D", "C", "R", "F", "V", "T", "G", "B"],
   right: ["Y", "H", "N", "U", "J", "M", "I", "K", "Comma", "O", "L", "Period", "P", "Semicolon", "Slash"],
+};
+
+/** 画面表示用の物理配置（3段×5列） */
+export const HAND_ROWS: Record<Hand, string[][]> = {
+  left: [
+    ["Q", "W", "E", "R", "T"],
+    ["A", "S", "D", "F", "G"],
+    ["Z", "X", "C", "V", "B"],
+  ],
+  right: [
+    ["Y", "U", "I", "O", "P"],
+    ["H", "J", "K", "L", "Semicolon"],
+    ["N", "M", "Comma", "Period", "Slash"],
+  ],
 };
 
 /** 出力順に並べた面定義 */

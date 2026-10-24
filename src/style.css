@@ -1,0 +1,219 @@
+:root {
+  --bg: #fafaf7;
+  --fg: #1f1f1f;
+  --muted: #6b6b6b;
+  --line: #c9c9c2;
+  --key-bg: #ffffff;
+  --empty-bg: #f0f0eb;
+  /* マニュアル凡例に寄せたカテゴリ色 */
+  --cat-move: #d7e8fb;
+  --cat-select: #d9f0d3;
+  --cat-important: #fde0c8;
+  --cat-symbol: #ececec;
+  --stripe: rgba(0, 0, 0, 0.12);
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1b1b1d;
+    --fg: #e6e6e3;
+    --muted: #9a9a96;
+    --line: #48484c;
+    --key-bg: #2a2a2e;
+    --empty-bg: #222225;
+    --cat-move: #22384f;
+    --cat-select: #243d26;
+    --cat-important: #4a3220;
+    --cat-symbol: #333337;
+    --stripe: rgba(255, 255, 255, 0.12);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 16px;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: system-ui, sans-serif;
+}
+
+h1 {
+  font-size: 1.25rem;
+  margin: 0 0 8px;
+}
+
+h2 {
+  font-size: 0.95rem;
+  margin: 0 0 6px;
+}
+
+a {
+  color: inherit;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin: 0 0 16px;
+  padding: 0;
+  list-style: none;
+  font-size: 0.85rem;
+}
+
+.legend li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.swatch {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: var(--key-bg);
+}
+
+/* 面グリッド */
+.faces {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 760px) {
+  .faces {
+    grid-template-columns: 1fr;
+  }
+}
+
+.hand {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 4px;
+  max-width: 420px;
+}
+
+.key {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  padding: 4px 2px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--key-bg);
+  color: inherit;
+  font: inherit;
+  overflow: hidden;
+}
+
+.key .glyph {
+  font-size: 1.05rem;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.key .keyname {
+  font-size: 0.65rem;
+  color: var(--muted);
+}
+
+.key.empty {
+  background: var(--empty-bg);
+  border-style: dashed;
+}
+
+.key.reserved {
+  background: repeating-linear-gradient(45deg, var(--empty-bg) 0 6px, var(--stripe) 6px 8px);
+  color: var(--muted);
+  cursor: not-allowed;
+}
+
+.cat-cursor,
+.cat-macro {
+  background: var(--cat-move);
+}
+
+.cat-select {
+  background: var(--cat-select);
+}
+
+.cat-edit,
+.cat-ime {
+  background: var(--cat-important);
+}
+
+.cat-symbol,
+.cat-text {
+  background: var(--cat-symbol);
+}
+
+/* status：unsupported は斜線＋淡色、unverified は点線枠 */
+.st-unsupported {
+  background-image: repeating-linear-gradient(45deg, transparent 0 6px, var(--stripe) 6px 8px);
+}
+
+.key.st-unsupported .glyph {
+  opacity: 0.55;
+}
+
+.st-unverified {
+  border: 2px dotted var(--fg);
+}
+
+/* 出力 */
+.output {
+  margin-top: 24px;
+}
+
+.output-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  margin-bottom: 6px;
+}
+
+.output-bar h2 {
+  margin: 0;
+}
+
+#copy-msg {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+#output {
+  width: 100%;
+  height: 28em;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--key-bg);
+  color: inherit;
+  font-family: ui-monospace, "DejaVu Sans Mono", monospace;
+  font-size: 0.85rem;
+  white-space: pre;
+  resize: vertical;
+}
+
+footer {
+  margin-top: 24px;
+  font-size: 0.8rem;
+  color: var(--muted);
+}

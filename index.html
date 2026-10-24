@@ -6,7 +6,38 @@
     <title>薙刀式 編集モード エディタ</title>
   </head>
   <body>
-    <textarea id="output" readonly rows="40" cols="100"></textarea>
+    <header>
+      <h1>薙刀式 編集モード エディタ</h1>
+      <ul class="legend">
+        <li><span class="swatch cat-cursor"></span>移動・マクロ</li>
+        <li><span class="swatch cat-select"></span>範囲選択</li>
+        <li><span class="swatch cat-edit"></span>重要な操作</li>
+        <li><span class="swatch cat-symbol"></span>記号・文字</li>
+        <li><span class="swatch st-unsupported"></span>Linux未対応</li>
+        <li><span class="swatch st-unverified"></span>未検証</li>
+      </ul>
+    </header>
+
+    <main>
+      <div id="faces" class="faces"></div>
+
+      <section class="output">
+        <div class="output-bar">
+          <h2>keymapper 出力</h2>
+          <button type="button" id="copy">コピー</button>
+          <span id="copy-msg" role="status"></span>
+        </div>
+        <textarea id="output" readonly spellcheck="false" aria-label="keymapper 出力"></textarea>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        薙刀式：大岡俊彦（<a href="https://oookaworks.seesaa.net/article/456099128.html">公式解説</a>） ／
+        既定値の出典：中野藤右衛門氏の keymapper 設定（<a href="https://tohwemon.com/2026/06/25/win-mac-linux%e3%81%a7%e8%96%99%e5%88%80%e5%bc%8fv17%ef%bc%88%e8%a8%ad%e5%ae%9a%e3%83%95%e3%82%a1%e3%82%a4%e3%83%ab%e6%9b%b4%e6%96%b0%ef%bc%89/">Linux版 v17</a>） ／
+        <a href="https://github.com/houmain/keymapper">houmain/keymapper</a>
+      </p>
+    </footer>
     <script type="module" src="./src/main.ts"></script>
   </body>
 </html>
