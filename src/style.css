@@ -181,10 +181,15 @@ a {
   border-style: dashed;
 }
 
-.key.reserved {
-  background: repeating-linear-gradient(45deg, var(--empty-bg) 0 6px, var(--stripe) 6px 8px);
-  color: var(--muted);
+/* 予約：Linux未対応の斜線と区別するため、塗りつぶし＋反転文字 */
+.reserved {
+  background: var(--muted);
+  color: var(--key-bg);
   cursor: not-allowed;
+}
+
+.key.reserved .keyname {
+  color: inherit;
 }
 
 .cat-cursor,
