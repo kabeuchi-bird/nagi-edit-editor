@@ -64,7 +64,12 @@ export function renderFaces(
         for (const row of HAND_ROWS[face.hand]) {
           for (const key of row) grid.append(keyCell(face, key, layout, actions.get(layout[id][key] ?? ""), selected));
         }
-        section.append(el("h2", "", `${face.name}（${face.trigger.join(" ")}）`), grid);
+        const heading = el("div", "face-head");
+        const reset = el("button", "small", "既定に戻す");
+        reset.type = "button";
+        reset.dataset.resetFace = id;
+        heading.append(el("h2", "", `${face.name}（${face.trigger.join(" ")}）`), reset);
+        section.append(heading, grid);
         col.append(section);
       }
       return col;

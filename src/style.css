@@ -38,6 +38,11 @@
   box-sizing: border-box;
 }
 
+/* display を指定した要素でも hidden 属性を効かせる */
+[hidden] {
+  display: none !important;
+}
+
 body {
   margin: 0;
   padding: 16px;
@@ -223,12 +228,63 @@ a {
   border: 2px dotted var(--fg);
 }
 
-/* 出力 */
-.output {
+/* ヘッダー */
+.title-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  margin-bottom: 8px;
+}
+
+.title-bar h1 {
+  margin: 0;
+}
+
+.toolbar,
+.form-row,
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
+}
+
+.warn,
+.notice {
+  margin: 0 0 12px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  white-space: pre-line;
+}
+
+.warn {
+  background: var(--cat-important);
+}
+
+.notice {
+  background: var(--cat-move);
+}
+
+.face-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+button.small {
+  padding: 1px 6px;
+  font-size: 0.75rem;
+}
+
+/* パネル共通 */
+.panel {
   margin-top: 24px;
 }
 
-.output-bar {
+.panel-bar {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -236,8 +292,157 @@ a {
   margin-bottom: 6px;
 }
 
-.output-bar h2 {
+.panel-bar h2 {
   margin: 0;
+}
+
+.hint-inline,
+.field-note {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+input,
+select,
+output {
+  font: inherit;
+}
+
+input:not([type="checkbox"]),
+select {
+  min-width: 0;
+  padding: 3px 6px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--key-bg);
+  color: inherit;
+}
+
+.mono {
+  font-family: ui-monospace, "DejaVu Sans Mono", monospace;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 12px;
+  align-items: end;
+  max-width: 640px;
+}
+
+.form-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 0.8rem;
+}
+
+.form-grid .wide,
+.form-grid .warn-list {
+  grid-column: 1 / -1;
+}
+
+.warn-list {
+  margin: 0;
+  padding-left: 1.2em;
+  font-size: 0.8rem;
+  color: var(--accent);
+}
+
+.warn-list:empty {
+  display: none;
+}
+
+/* パレット */
+.palette {
+  padding: 8px;
+  border: 2px solid transparent;
+  border-radius: 8px;
+}
+
+.palette.drop-target {
+  border: 2px dashed var(--accent);
+}
+
+#palette-search {
+  width: 16em;
+  max-width: 100%;
+}
+
+.pal-group h3 {
+  margin: 10px 0 4px;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.pal-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.pal-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 8px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: grab;
+  user-select: none;
+}
+
+.pal-item:focus-visible {
+  outline: 2px solid var(--accent);
+}
+
+.pal-item.st-unsupported .glyph {
+  opacity: 0.55;
+}
+
+.pal-del {
+  padding: 0 4px;
+  border: none;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  cursor: pointer;
+}
+
+.custom-add {
+  margin-top: 12px;
+}
+
+.custom-add summary {
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.custom-add form {
+  margin-top: 8px;
+}
+
+/* 詳細パネルと出力 */
+.bottom {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  gap: 24px;
+}
+
+@media (max-width: 760px) {
+  .bottom {
+    grid-template-columns: 1fr;
+  }
+}
+
+.detail .form-row {
+  margin-top: 8px;
+}
+
+.options {
+  margin-bottom: 6px;
+  font-size: 0.85rem;
 }
 
 #copy-msg {

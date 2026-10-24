@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { DEFAULT_LAYOUT } from "../src/defaultLayout";
-import { assign, clear, commit, createHistory, isModified, redo, swap, undo } from "../src/layoutOps";
+import { assign, clear, commit, createHistory, isModified, redo, resetFace, resetSlot, swap, undo } from "../src/layoutOps";
 
 const L = DEFAULT_LAYOUT;
 
@@ -49,6 +49,16 @@ describe("assign / clear", () => {
     const out = clear(L, { face: "l1", key: "Q" });
     expect("Q" in out.l1).toBe(false);
     expect(clear(out, { face: "l1", key: "Q" })).toBe(out);
+  });
+});
+
+describe("resetSlot / resetFace", () => {
+  it("スロット・面を既定に戻す。既定どおりなら同じオブジェクト", () => {
+    const changed = clear(swap(L, { face: "r1", key: "J" }, { face: "r1", key: "M" }), { face: "r1", key: "Y" });
+    expect(resetSlot(changed, { face: "r1", key: "Y" }).r1.Y).toBe("home");
+    expect(resetSlot(assign(L, { face: "p_l", key: "Q" }, "home"), { face: "p_l", key: "Q" }).p_l).toEqual({});
+    expect(resetFace(changed, "r1").r1).toEqual(L.r1);
+    expect(resetFace(L, "r1")).toBe(L);
   });
 });
 

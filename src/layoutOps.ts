@@ -38,6 +38,33 @@ export const isModified = (layout: Layout, s: SlotRef): boolean => get(layout, s
 export const clear = (layout: Layout, s: SlotRef): Layout =>
   get(layout, s) === undefined ? layout : set(layout, s, undefined);
 
+/** スロットを既定に戻す */
+export const resetSlot = (layout: Layout, s: SlotRef): Layout => {
+  const id = get(DEFAULT_LAYOUT, s);
+  return id === undefined ? clear(layout, s) : assign(layout, s, id);
+};
+
+/** 面を既定に戻す */
+export function resetFace(layout: Layout, face: FaceId): Layout {
+  const cur = layout[face];
+  const def = DEFAULT_LAYOUT[face];
+  const same = Object.keys(cur).length === Object.keys(def).length && Object.entries(def).every(([k, v]) => cur[k] === v);
+  return same ? layout : { ...layout, [face]: { ...def } };
+}
+
+/** 指定アクションを置いているスロットをすべて空にする */
+export function clearAction(layout: Layout, actionId: string): Layout {
+  let out = layout;
+  for (const face of Object.keys(layout) as FaceId[]) {
+    for (const [key, id] of Object.entries(layout[face])) if (id === actionId) out = clear(out, { face, key });
+  }
+  return out;
+}
+
+/** アクションを置いているスロット数 */
+export const countUses = (layout: Layout, actionId: string): number =>
+  Object.values(layout).reduce((n, slots) => n + Object.values(slots).filter((id) => id === actionId).length, 0);
+
 // Undo/Redo
 // ponytail: 履歴は無制限。レイアウトは小さいので問題になったら上限を付ける
 export interface History<T> {

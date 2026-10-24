@@ -7,7 +7,17 @@
   </head>
   <body>
     <header>
-      <h1>薙刀式 編集モード エディタ</h1>
+      <div class="title-bar">
+        <h1>薙刀式 編集モード エディタ</h1>
+        <div class="toolbar">
+          <button type="button" id="import">インポート</button>
+          <input type="file" id="import-file" accept=".json,application/json" hidden />
+          <button type="button" id="export">エクスポート</button>
+          <button type="button" id="reset-all">すべて既定に戻す</button>
+        </div>
+      </div>
+      <p id="storage-warn" class="warn" hidden>保存できません。JSONでエクスポートしてください</p>
+      <div id="notice" class="notice" role="status" hidden></div>
       <ul class="legend">
         <li><span class="swatch cat-cursor"></span>移動・マクロ</li>
         <li><span class="swatch cat-select"></span>範囲選択</li>
@@ -18,24 +28,77 @@
         <li><span class="swatch modified"></span>既定から変更</li>
       </ul>
       <p class="hint">
-        ドラッグ、またはクリック→別のキーをクリックで入れ替え ／ Delete で空にする ／ Esc で選択解除 ／
-        Ctrl+Z 元に戻す ・ Ctrl+Shift+Z やり直す
+        ドラッグ、またはクリック→別のキーをクリックで入れ替え ／ パレットからドラッグで上書き、パレットへドラッグで空にする ／
+        Delete で空にする ／ Esc で選択解除 ／ Ctrl+Z 元に戻す ・ Ctrl+Shift+Z やり直す
       </p>
     </header>
 
     <main>
       <div id="faces" class="faces"></div>
 
-      <section class="output">
-        <div class="output-bar">
-          <h2>keymapper 出力</h2>
-          <button type="button" id="copy">コピー</button>
-          <label><input type="checkbox" id="diff-toggle" /> 既定との差分を表示</label>
-          <span id="copy-msg" role="status"></span>
+      <section id="palette" class="panel palette" aria-label="アクションパレット">
+        <div class="panel-bar">
+          <h2>アクションパレット</h2>
+          <input type="search" id="palette-search" placeholder="絞り込み（名前・表示・expr）" aria-label="パレットを絞り込む" />
+          <span class="hint-inline">キーを選択中に項目をクリックすると上書き</span>
         </div>
-        <textarea id="output" readonly spellcheck="false" aria-label="keymapper 出力"></textarea>
-        <pre id="diff" hidden aria-label="既定との差分"></pre>
+        <div id="palette-list"></div>
+        <details class="custom-add">
+          <summary>カスタムアクションを追加</summary>
+          <form id="text-form" class="form-row">
+            <label>テキスト挿入 <input id="t-text" placeholder="例：天空のファルコーン" /></label>
+            <button type="submit">追加</button>
+            <span class="field-note">^ "文字列" を作ります（Linuxでは未対応扱い）</span>
+          </form>
+          <form id="custom-form" class="form-grid">
+            <label>名前 <input id="c-label" required /></label>
+            <label>表示 <input id="c-glyph" placeholder="省略時は名前の先頭2文字" /></label>
+            <label>カテゴリ <select id="c-category"></select></label>
+            <label>状態 <select id="c-status"></select></label>
+            <label class="wide">expr <input id="c-expr" class="mono" required placeholder="例：^ Control{Home}" /></label>
+            <label class="wide">行末コメント <input id="c-comment" placeholder="省略時は名前" /></label>
+            <ul id="c-warn" class="warn-list"></ul>
+            <button type="submit">追加</button>
+          </form>
+        </details>
       </section>
+
+      <div class="bottom">
+        <section class="panel detail" aria-label="詳細パネル">
+          <h2 id="d-title">詳細</h2>
+          <p id="d-empty" class="field-note">キーをクリックすると詳細を表示します</p>
+          <form id="detail-form" class="form-grid" hidden>
+            <label>名前 <input id="d-label" /></label>
+            <label>表示 <input id="d-glyph" /></label>
+            <label>状態 <select id="d-status"></select></label>
+            <label>種別 <output id="d-kind"></output></label>
+            <label class="wide">expr <input id="d-expr" class="mono" /></label>
+            <label class="wide">行末コメント <input id="d-comment" /></label>
+            <ul id="d-warn" class="warn-list"></ul>
+            <p class="field-note wide">編集すると、このスロット専用のカスタムアクションになります（既定カタログは変わりません）</p>
+          </form>
+          <div class="form-row">
+            <button type="button" id="d-reset">このキーを既定に戻す</button>
+            <button type="button" id="d-clear">空にする</button>
+          </div>
+        </section>
+
+        <section class="panel output">
+          <div class="panel-bar">
+            <h2>keymapper 出力</h2>
+            <button type="button" id="copy">コピー</button>
+            <span id="copy-msg" role="status"></span>
+          </div>
+          <div class="options">
+            <label><input type="checkbox" id="opt-includeUnsupported" /> 未対応・未検証も有効行で出す</label>
+            <label><input type="checkbox" id="opt-includeProperNouns" /> 固有名詞面を出力する</label>
+            <label><input type="checkbox" id="opt-trailingComments" /> 行末コメントを付ける</label>
+            <label><input type="checkbox" id="diff-toggle" /> 既定との差分を表示</label>
+          </div>
+          <textarea id="output" readonly spellcheck="false" aria-label="keymapper 出力"></textarea>
+          <pre id="diff" hidden aria-label="既定との差分"></pre>
+        </section>
+      </div>
     </main>
 
     <footer>

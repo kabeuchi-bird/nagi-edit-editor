@@ -4,6 +4,17 @@ export const STATUS_LABEL: Record<Status, string> = { ok: "", unsupported: "Linu
 
 export type Category = "cursor" | "select" | "edit" | "ime" | "symbol" | "macro" | "text";
 
+/** パレットの表示順と見出し */
+export const CATEGORY_LABEL: Record<Category, string> = {
+  cursor: "移動",
+  select: "範囲選択",
+  edit: "編集",
+  ime: "IME",
+  macro: "マクロ",
+  symbol: "記号",
+  text: "テキスト",
+};
+
 export interface Action {
   id: string;
   label: string;
@@ -28,6 +39,12 @@ export interface Face {
 
 /** 面ごとの「キー名 → アクションID」。未記載のキーは空スロット */
 export type Layout = Record<FaceId, Record<string, string>>;
+
+/** Undo/Redo の対象（docs/spec.md 5章） */
+export interface EditState {
+  layout: Layout;
+  customActions: Action[];
+}
 
 export interface OutputOptions {
   includeUnsupported: boolean;
